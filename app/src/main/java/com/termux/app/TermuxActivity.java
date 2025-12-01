@@ -551,6 +551,14 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         }
     }
 
+    public void toggleTerminalToolbarViewPager() {
+        final ViewPager terminalToolbarViewPager = getTerminalToolbarViewPager();
+        if (terminalToolbarViewPager == null) return;
+
+        final int currentItem = terminalToolbarViewPager.getCurrentItem();
+        terminalToolbarViewPager.setCurrentItem(currentItem == 1 ? 0 : 1, true);
+    }
+
     private void saveTerminalToolbarTextInput(Bundle savedInstanceState) {
         if (savedInstanceState == null) return;
 
