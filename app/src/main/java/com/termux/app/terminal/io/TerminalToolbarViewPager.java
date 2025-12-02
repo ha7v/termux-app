@@ -78,6 +78,19 @@ public class TerminalToolbarViewPager {
                     }
                     return true;
                 });
+
+                // Handle Ctrl+Alt+t shortcut to toggle focus
+                editText.setOnKeyListener((v, keyCode, event) -> {
+                    if (event.getAction() == android.view.KeyEvent.ACTION_DOWN &&
+                        event.isCtrlPressed() && event.isAltPressed()) {
+                        int unicodeChar = event.getUnicodeChar(0);
+                        if (unicodeChar == 't') {
+                            mActivity.getTermuxTerminalViewClient().toggleTerminalToolbarTextInput();
+                            return true;
+                        }
+                    }
+                    return false;
+                });
             }
             collection.addView(layout);
             return layout;

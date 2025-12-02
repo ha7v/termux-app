@@ -269,6 +269,8 @@ public class TermuxTerminalViewClient extends TermuxTerminalViewClientBase {
                 showUrlSelection();
             } else if (unicodeChar == 'v') {
                 doPaste();
+            } else if (unicodeChar == 't'/* text input */) {
+                toggleTerminalToolbarTextInput();
             } else if (unicodeChar == '+' || e.getUnicodeChar(KeyEvent.META_SHIFT_ON) == '+') {
                 // We also check for the shifted char here since shift may be required to produce '+',
                 // see https://github.com/termux/termux-api/issues/2
@@ -797,6 +799,35 @@ public class TermuxTerminalViewClient extends TermuxTerminalViewClientBase {
         String text = ShareUtils.getTextStringFromClipboardIfSet(mActivity, true);
         if (text != null)
             session.getEmulator().paste(text);
+    }
+
+    /**
+     * Toggle focus between terminal view and toolbar text input view.
+     * Called via Ctrl+Alt+t hardware keyboard shortcut.
+     */
+    public void toggleTerminalToolbarTextInput() {
+        final EditText textInputView = mActivity.findViewById(R.id.terminal_toolbar_text_input);
+        if (textInputView == null) return;
+
+        // Ensure toolbar is visible
+        if (mActivity.getTerminalToolbarViewPager().getVisibility() != View.VISIBLE) {
+            mActivity.getTerminalToolbarViewPager().setVisibility(View.VISIBLE);
+            mActivity.getPreferences().setShowTerminalToolbar(true);
+        }
+
+        // If text input view is displayed (page 1)
+        if (mActivity.isTerminalToolbarTextInputViewSelected()) {
+            // Toggle focus between text input and terminal, stay on page 1
+            if (textInputView.hasFocus()) {
+                mActivity.getTerminalView().requestFocus();
+            } else {
+                textInputView.requestFocus();
+            }
+        } else {
+            // Currently on page 0 (extra keys), switch to text input page
+            mActivity.getTerminalToolbarViewPager().setCurrentItem(1, true);
+            textInputView.requestFocus();
+        }
     }
 
 }
