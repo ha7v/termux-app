@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -46,6 +47,7 @@ public class TerminalToolbarViewPager {
                 ExtraKeysView extraKeysView = (ExtraKeysView) layout;
                 extraKeysView.setExtraKeysViewClient(mActivity.getTermuxTerminalExtraKeys());
                 extraKeysView.setButtonTextAllCaps(mActivity.getProperties().shouldExtraKeysTextBeAllCaps());
+                extraKeysView.setButtonBackgroundColor(Color.TRANSPARENT);
                 mActivity.setExtraKeysView(extraKeysView);
                 extraKeysView.reload(mActivity.getTermuxTerminalExtraKeys().getExtraKeysInfo(),
                     mActivity.getTerminalToolbarDefaultHeight());
@@ -79,12 +81,12 @@ public class TerminalToolbarViewPager {
                     return true;
                 });
 
-                // Handle Ctrl+Alt+t shortcut to toggle focus
+                // Handle Ctrl+Alt+f shortcut to toggle focus
                 editText.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == android.view.KeyEvent.ACTION_DOWN &&
                         event.isCtrlPressed() && event.isAltPressed()) {
                         int unicodeChar = event.getUnicodeChar(0);
-                        if (unicodeChar == 't') {
+                        if (unicodeChar == 'f') {
                             mActivity.getTermuxTerminalViewClient().toggleTerminalToolbarTextInput();
                             return true;
                         }

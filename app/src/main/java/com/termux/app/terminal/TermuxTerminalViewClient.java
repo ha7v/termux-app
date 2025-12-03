@@ -269,7 +269,7 @@ public class TermuxTerminalViewClient extends TermuxTerminalViewClientBase {
                 showUrlSelection();
             } else if (unicodeChar == 'v') {
                 doPaste();
-            } else if (unicodeChar == 't'/* text input */) {
+            } else if (unicodeChar == 'f'/* text input */) {
                 toggleTerminalToolbarTextInput();
             } else if (unicodeChar == '+' || e.getUnicodeChar(KeyEvent.META_SHIFT_ON) == '+') {
                 // We also check for the shifted char here since shift may be required to produce '+',
